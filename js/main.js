@@ -2,19 +2,25 @@ const arabicInput = document.getElementById('arabic-input');
 const romanInput = document.getElementById('roman-input');
 const arabicResult = document.getElementById('from-roman-result');
 const romanResult = document.getElementById('to-roman-result');
-const convertToRoman = document.getElementById('convert-to-roman');
-const convertFromRoman = document.getElementById('convert-from-roman');
 
 arabicInput.addEventListener('input', (e) => {
-  // add conditions here
-  romanResult.textContent += toRoman(` ${e.target.value}`);
+  if (e.target.value === "") {
+    romanResult.innerHTML = "";
+  } else {
+    romanResult.innerHTML = toRoman(e.target.value);
+  }
 });
 
 romanInput.addEventListener('input', (e) => {
-  arabicResult.textContent += fromRoman(` ${e.target.value}`);
+  const valid = /^\d+$/;
+  if (e.target.value === "" || e.target.value.match(valid)) {
+    arabicResult.innerHTML = "";
+  } else {
+    arabicResult.innerHTML = fromRoman(e.target.value);
+  }
 });
 
-const toRoman = (num) => {
+const toRoman = (num1) => {
   let roman = "";
   const romanList = {
     M: 1000,
@@ -32,18 +38,19 @@ const toRoman = (num) => {
     I: 1
   };
   let arabic;
+  if (num1 < 1 || num1 > 3999) {
+    return "Invalid number!, please enter a number between 1 and 3999"
+  } else {
     for (let key in romanList) {
-      arabic = Math.floor(num / romanList[key]);
+      arabic = Math.floor(num1 / romanList[key]);
       if (arabic >= 0) {
         for (let i = 0; i < arabic; i++) {
           roman += key;
         }
       }
-      if (typeof(num) === undefined) {
-        return "Error, please refersh page and try again"
-      }
-      num = num % romanList[key];
+      num1 = num1 % romanList[key];
     }
+  }
   return roman;
 }
 
@@ -83,7 +90,7 @@ const fromRoman = (num) => {
   let n = 0;
   for (let rn in romanList) {
     i = num.indexOf(romanList[rn]);
-    while(i != -1) {
+    while(i !=+ -1) {
       n += parseInt(intList[rn]);
       num = num.replace(romanList[rn], "-");
       i = num.indexOf(romanList[rn]);
