@@ -1,4 +1,4 @@
-export function toRoman(num1) {
+export const toRoman = (num1) => {
   let roman = "";
   const romanList = {
     M: 1000,
@@ -32,7 +32,7 @@ export function toRoman(num1) {
   return roman;
 }
 
-export function fromRoman(num) {
+export const fromRoman = (num) => {
   num = num.toUpperCase();
   const romanList = [
     "CM",
@@ -76,8 +76,3 @@ export function fromRoman(num) {
   }
   return n;
 }
-
-// module.exports = {
-//   toRoman: convertToRoman,
-//   fromRoman: convertFromRoman
-// };
